@@ -19,7 +19,7 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/news',
+      path: '/news/:id',
       name: 'AbstractEssay',
       component: AbstractEssay
     },

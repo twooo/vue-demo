@@ -15,7 +15,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active nav-li active" @click="getAjax" @mouseenter="change($event)" @mouseleave="move($event)">
+        <li class="active nav-li active" @mouseenter="change($event)" @mouseleave="move($event)">
           <a  class="nav-a"  href="/">首页<span class="sr-only">(current)</span></a>
           <div class="model"></div>
         </li>
@@ -23,41 +23,41 @@
           <a href="#" class="dropdown-toggle nav-a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">关于我们<span class="caret"></span></a>
           <div class="model"></div>
           <ul class="dropdown-menu">
-            <li><a href="#">企业文化</a></li>
-            <li><a href="/info">公司简介</a></li>
-            <li><a href="#">领导致辞</a></li>
+            <li><a href="#" @click="getSon($event)" value="498571d435184931b5a0a11756fb3336" >企业文化</a></li>
+            <li><a href="/info" @click="getSon($event)" value="49e2a9c1073b493aa8a40daeabeca8eb">公司简介</a></li>
+            <li><a href="#" @click="getSon($event)" value="b13b5b5685ca4f7cbf71fc61fd3cc258">领导致辞</a></li>
           </ul>
         </li>
         <li class="dropdown nav-li" @mouseenter="change($event)" @mouseleave="move($event)">
           <a href="#" class="dropdown-toggle nav-a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">站容站貌<span class="caret"></span></a>
           <div class="model"></div>
           <ul class="dropdown-menu">
-            <li><a href="/env">公司环境</a></li>
-            <li><a href="#">设备展示</a></li>
+            <li><router-link  to="/env" @click="getSon($event)" value="3c7cc6ca0b9840c6918e7f3d36d0d117">公司环境</router-link ></li>
+            <li><a href="#" @click="getSon($event)" value="4263de44ba3741c6a7f14efe2f2d4d17">设备展示</a></li>
           </ul>
         </li>
         <li class="dropdown nav-li" @mouseenter="change($event)" @mouseleave="move($event)">
           <a href="#" class="dropdown-toggle nav-a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">新闻中心<span class="caret"></span></a>
           <div class="model"></div>
           <ul class="dropdown-menu">
-            <li><a href="/news">新闻来源</a></li>
-            <li><a href="#">新闻内容</a></li>
+            <li><router-link  to="/news/ab8427f04c344df9acfb03834efd2aee" @click="getSon($event)" value="ab8427f04c344df9acfb03834efd2aee">新闻来源</router-link ></li>
+            <li><a href="#" @click="getSon($event)" value="dc5dc237f6e14fdea3b2c043cf85c42c">新闻内容</a></li>
           </ul>
         </li>
         <li class="dropdown nav-li" @mouseenter="change($event)" @mouseleave="move($event)">
           <a href="#" class="dropdown-toggle nav-a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">工程展示<span class="caret"></span></a>
           <div class="model"></div>
           <ul class="dropdown-menu">
-            <li><a href="#">工程标准</a></li>
-            <li><a href="#">优秀工程</a></li>
+            <li><a href="#" @click="getSon($event)" value="107c9d8330ca46c5a617cc30e12ed0a0">工程标准</a></li>
+            <li><a href="#"  @click="getSon($event)" value="9a1a8762cb9c403a8c1e17fc4ea09b8e">优秀工程</a></li>
           </ul>
         </li>
         <li class="dropdown nav-li" @mouseenter="change($event)" @mouseleave="move($event)">
           <a href="#" class="dropdown-toggle nav-a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">人力资源<span class="caret"></span></a>
           <div class="model"></div>
           <ul class="dropdown-menu">
-            <li><a href="#">人才策略</a></li>
-            <li><a href="#">职位招聘</a></li>
+            <li><a href="#" @click="getSon($event)" value="1a706094bcff4b5f860aa00c6c69679c">人才策略</a></li>
+            <li><a href="#"  @click="getSon($event)" value="c3d28ddd8f204028a5f32fc412c29f9b">职位招聘</a></li>
           </ul>
         </li>
       </ul>
@@ -71,7 +71,7 @@ export default {
   name: 'Header',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      ariticles: []
     }
   },
   methods:{
@@ -102,7 +102,7 @@ export default {
       },
       getAjax:function(){
         $.ajax({
-          url:"http://localhost:8080/api/admin/type/findSon",
+          url:"http://localhost/api/admin/type/findSon",
           type:"post",
           data:{
             "parentId":"32a25f7f02664bacad850783c217c2fc"
@@ -111,7 +111,27 @@ export default {
             alert(data.data);
           }
         });
-      }
+      },
+        getSon: function($event) {
+      var that = $($event.target);
+      var typeId = that.attr("value");
+      var wSon = null;
+      $.ajax({
+        url: "http://localhost/api/findAll",
+        type: "post",
+        data: {
+          typeId: typeId
+        },
+        success: function(data) {
+          wSon = data.data;
+        },
+        error: function (data) {
+          console.log("失败");
+        }
+      });
+      this.son = wSon;
+      eventBus.$emit('header', wSon);
+    }
   }
 } 
 </script>
