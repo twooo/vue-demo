@@ -16,7 +16,7 @@
               <div class="summary">
                 <h1>{{ item.name }}</h1>
                 <!-- <h3>发布者: 万科集团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览次数: 4514</h3> -->
-                <p><a href="news.aspx?type=8&amp;id=6434" v-html="item.content">{{item.content}}</a></p>
+                <p><a href="news.aspx?type=8&amp;id=6434" v-text="item.content">{{item.content}}</a></p>
               </div>
           </div>
     </div>
@@ -108,11 +108,16 @@ export default {
   color: #474545;
 }
 .summary p{
+  text-indent: 2em;
   font-size: 12px;
   line-height: 18px;
-  height: 85px;
+  height: 72px;
   overflow: hidden;
   color:#746969;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
 }
  a {
     display: block;
@@ -121,7 +126,7 @@ export default {
 
     text-decoration: none;
 
-        cursor: pointer;
+    cursor: pointer;
 }
 /*
 .date-block {

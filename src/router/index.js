@@ -24,12 +24,12 @@ export default new Router({
       component: AbstractEssay
     },
     {
-      path: '/info',
+      path: '/info/:id',
       name: 'companyInfo',
       component: companyInfo
     },
     {
-      path: '/env',
+      path: '/env/:id',
       name: 'Emvironment',
       component: Emvironment
     },

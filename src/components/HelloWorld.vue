@@ -4,24 +4,15 @@
     <div class="container">
       <div class="row">
           <div class="col-md-6 leftContent">
-            <h1>{{title}}</h1>
-            <p><a href="#">{{content}}</a></p>
+            <h1>{{ariticle.name}}</h1>
+            <p><a href="#">{{ariticle.content}}</a></p>
           </div>
           <div class="col-md-6 rightContent">
             <h1>相关新闻</h1>
             <div>
                <ul style="margin-top:0!important">
-                <li>
-                   <a href="#">英雄联盟</a>
-                </li>
-                <li>
-                   <a href="#">穿越火线</a>
-                </li>
-                <li>
-                   <a href="#">地下城与勇士</a>
-                </li>
-                <li>
-                   <a href="#">魔兽世界</a>
+                <li v-for="item in ariticles">
+                   <a href="#" ><p>{{item.createTime.substr(0, 10)}} <span v-text="item.content">{{item.content}}</span></p></a>
                 </li>
             </ul>
             </div>
@@ -34,15 +25,21 @@
 <script>
 import Carousel from './Carousel.vue'
 
+
 export default {
   name: 'HelloWorld',
   components:{Carousel},
   data(){
     return{
-      title:"西安市委书记王永康到曲江创意谷调研",
-      content:"1月5日下午，陕西省委常委、西安市委书记王永康一行来到曲江创意谷考察调研。西安市副市长王勇、曲江新区管委会主任姚立军、西安曲江文化产业投资（集团）有限公司党委书记、董事长李铁军一行陪同。西安万科总经理郭继勋全程陪同讲解。..."
+      id:"dc5dc237f6e14fdea3b2c043cf85c42c",
+      ariticles: [],
+      ariticle:{}
     }
   },
+  // beforeRouteEnter(to, from, next) {
+  //     wId = to.params.id;
+  //     next();
+  // },
   methods:{
     change(){
        $(".rightContent").find('ul').animate({
@@ -53,9 +50,30 @@ export default {
          $(".rightContent ul li:last").after(li);
          $(".rightContent ul li:first").remove();
       })
-    }
+    },
+    getEventData(typeId) {
+          var that = this
+         
+          $.ajax({
+            url: "http://localhost/api/findAll?date = " + new Date().getTime(),
+            type: "post",
+            data: {
+              typeId: typeId
+            },
+            success: function(data) {
+              console.log(data)
+              that.ariticles = data.data;
+              that.ariticle = data.data[0];
+            },
+            error: function (data) {
+              console.log("失败");
+            }
+          });
+         
+        }
   },
   mounted(){
+    this.getEventData(this.id);
     setInterval(this.change,1000);
   }
 }
@@ -101,6 +119,9 @@ ul {
 .rightContent ul li{
   line-height: 22px;
   height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
 }
 .leftContent p{
   height: 66px;
@@ -109,6 +130,12 @@ ul {
   line-height: 22px;
   margin: 0px;
   overflow: hidden;
+  display: -webkit-box; 
+  text-overflow: ellipsis; 
+  overflow : hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 .leftContent  a{
   text-decoration: none;
