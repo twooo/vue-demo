@@ -16,7 +16,7 @@
               <div class="summary">
                 <h1>{{ item.name }}</h1>
                 <!-- <h3>发布者: 万科集团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览次数: 4514</h3> -->
-                <p><a href="news.aspx?type=8&amp;id=6434">{{ item.content }} </a></p>
+                <p><a href="news.aspx?type=8&amp;id=6434" v-html="item.content">{{item.content}}</a></p>
               </div>
           </div>
     </div>
@@ -29,7 +29,7 @@
 import BreadCrumb from "./BreadCrumb.vue"
 import backgroundImage from "./backgroundImage.vue"
 
-
+var wId = "";
 export default {
   name: 'AbstractEssay',
   components: {BreadCrumb,backgroundImage},
@@ -45,13 +45,17 @@ export default {
       ariticles: []
     }
   },
+    beforeRouteEnter(to, from, next) {
+      wId = to.params.id;
+      next();
+    },
     mounted() {
-        this.getEventData();
+      this.getEventData(wId);
     },
     methods: {
-        getEventData() {
-          var typeId = this.$route.params.id;
-          var wSon = null;
+        getEventData(typeId) {
+          var that = this
+         
           $.ajax({
             url: "http://localhost/api/findAll",
             type: "post",
@@ -59,13 +63,14 @@ export default {
               typeId: typeId
             },
             success: function(data) {
-              wSon = data.data;
+              console.log(data)
+              that.ariticles = data.data;
             },
             error: function (data) {
               console.log("失败");
             }
           });
-          this.ariticles = wSon;
+         
         }
     }
 }
