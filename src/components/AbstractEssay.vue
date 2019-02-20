@@ -16,7 +16,7 @@
               <div class="summary">
                 <h1>{{ item.name }}</h1>
                 <!-- <h3>发布者: 万科集团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览次数: 4514</h3> -->
-                <p><a href="news.aspx?type=8&amp;id=6434" v-text="item.content">{{item.content}}</a></p>
+                <p><a href="news.aspx?type=8&amp;id=6434" >{{item.content | removeTags}}</a></p>
               </div>
           </div>
     </div>

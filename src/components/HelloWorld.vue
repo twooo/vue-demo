@@ -5,14 +5,14 @@
       <div class="row">
           <div class="col-md-6 leftContent">
             <h1>{{ariticle.name}}</h1>
-            <p><a href="#">{{ariticle.content}}</a></p>
+            <p><a href="#">{{ariticle.content | removeTags}}</a></p>
           </div>
           <div class="col-md-6 rightContent">
             <h1>相关新闻</h1>
             <div>
                <ul style="margin-top:0!important">
                 <li v-for="item in ariticles">
-                   <a href="#" ><p>{{item.createTime.substr(0, 10)}} <span v-text="item.content">{{item.content}}</span></p></a>
+                   <a href="#" ><p>{{item.createTime.substr(0, 10)}} <span >{{item.content|removeTags}}</span></p></a>
                 </li>
             </ul>
             </div>
